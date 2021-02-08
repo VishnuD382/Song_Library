@@ -1,0 +1,70 @@
+package sample;
+import javafx.beans.property.SimpleStringProperty;
+
+public class songInformation {
+
+    private final SimpleStringProperty songName = new SimpleStringProperty("");
+    private final SimpleStringProperty songArtist = new SimpleStringProperty("");
+    private final SimpleStringProperty songAlbum = new SimpleStringProperty("");
+    private final SimpleStringProperty songYear = new SimpleStringProperty("");
+
+    public songInformation() {
+        this("", "", "", "");
+    }
+
+    public String getSongName() {
+        return songName.get();
+    }
+
+    public SimpleStringProperty songNameProperty() {
+        return songName;
+    }
+
+    public String getSongArtist() {
+        return songArtist.get();
+    }
+
+    public SimpleStringProperty songArtistProperty() {
+        return songArtist;
+    }
+
+    public String getSongAlbum() {
+        return songAlbum.get();
+    }
+
+    public SimpleStringProperty songAlbumProperty() {
+        return songAlbum;
+    }
+
+    public String getSongYear() {
+        return songYear.get();
+    }
+
+    public SimpleStringProperty songYearProperty() {
+        return songYear;
+    }
+
+    public void setSongName(String songName) {
+        this.songName.set(songName);
+    }
+
+    public void setSongArtist(String songArtist) {
+        this.songArtist.set(songArtist);
+    }
+
+    public void setSongAlbum(String songAlbum) {
+        this.songAlbum.set(songAlbum);
+    }
+
+    public void setSongYear(String songYear) {
+        this.songYear.set(songYear);
+    }
+
+
+    public songInformation(String songName, String songArtist, String songAlbum, String songYear) {
+        setSongName(songName);
+        setSongArtist(songArtist);
+        setSongAlbum(songAlbum);
+        setSongYear(songYear);
+    }
+}

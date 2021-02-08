@@ -16,6 +16,7 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(
                 getClass().getResource("sample.fxml"));
+
         AnchorPane root = (AnchorPane)loader.load();
 
         Controller controller = loader.getController();
@@ -25,7 +26,7 @@ public class Main extends Application {
         primaryStage.setTitle("Hello World Testing");
 
 
-        Scene scene = new Scene(root, 300, 300);
+        Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.show();
 

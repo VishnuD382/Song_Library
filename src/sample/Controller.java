@@ -1,4 +1,6 @@
 package sample;
+import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.io.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,17 +10,22 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Button;
 
 public class Controller {
     @FXML
     ListView<String> listView;
 
+    @FXML
+    private Button BtnAdd;
+
     private ObservableList<String> obsList;
 
+    @FXML
+    private TextField txtAddItem;
+
     String[] datatest = {"Chiefs", "Eagles" };
-
-
-
 
     public void start(Stage mainStage){
 
@@ -50,5 +57,11 @@ public class Controller {
         }
 
         listView.setItems(obsList);
+    }
+
+    public void insertSong(javafx.event.ActionEvent actionEvent) {
+
+        obsList.add(txtAddItem.getText());
+        //System.out.println("Added: " + printtest);
     }
 }

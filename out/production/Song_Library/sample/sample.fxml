@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane
-        xmlns:fx="http://javafx.com/fxml/1"
-        xmlns="http://javafx.com/javafx/11.0.1" fx:controller="sample.Controller">
 
-   <ListView fx:id="listView"
-             AnchorPane.topAnchor = "10"
-             AnchorPane.leftAnchor = "10"
-             AnchorPane.rightAnchor = "10"
-             AnchorPane.bottomAnchor = "10"/>
-
-</AnchorPane>
+<?import javafx.scene.text.Font?>
+   <AnchorPane id="AnchorPane" prefHeight="480.0" prefWidth="640.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="sample.Controller">
+      <children>
+        <VBox fx:id="VBoxMain" alignment="TOP_CENTER" prefHeight="423.0" prefWidth="341.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="20.0">
+          <children>
+            <Label fx:id="TitleLbl" alignment="TOP_LEFT" text="ListView Example">
+              <font>
+                <Font name="System Bold" size="18.0" />
+              </font>
+            </Label>
+            <ListView fx:id="listView" prefHeight="200.0" prefWidth="200.0" />
+            <Label id="TextLbl" fx:id="LblAddText" text="Enter Text" />
+            <TextField fx:id="txtAddItem" prefWidth="200.0" />
+            <HBox id="HBox" fx:id="HBox4Btns" alignment="CENTER" spacing="5.0" style="-fx-padding: 5 5 10 5;">
+              <children>
+                 <Button fx:id="BtnAdd" mnemonicParsing="false" text="Add" onAction="#insertSong"/>
+                 <Button fx:id="BtnDelete" mnemonicParsing="false" text="Delete" />
+              </children>
+            </HBox>
+          </children>
+        </VBox>
+      </children>
+       </AnchorPane>
