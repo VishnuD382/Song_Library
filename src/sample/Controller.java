@@ -83,23 +83,25 @@ public class Controller {
                 .selectedIndexProperty()
                 .addListener(
                         (obs, oldVal, newVal) ->
-                                showItemInputDialog(mainStage));
+                                showItem(mainStage));
 
     }
 
     private void showItem(Stage mainStage) {
+        songInformation song = listView.getSelectionModel().getSelectedItem();
+        String songName = song.getSongName();
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.initOwner(mainStage);
         alert.setTitle("List Item");
         alert.setHeaderText(
                 "Selected list item properties");
 
-        String content = "Index: " +
-                listView.getSelectionModel()
-                        .getSelectedIndex() +
-                "\nValue: " +
-                listView.getSelectionModel()
-                        .getSelectedItem();
+        String content = "Name: " +
+                songName +
+                "\nArtist : " +
+                song.getSongArtist() +
+                "\nAlbum: " + song.getSongAlbum()+
+                "\nYear: " + song.getSongYear();
 
         alert.setContentText(content);
         alert.showAndWait();
