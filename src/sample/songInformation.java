@@ -82,11 +82,6 @@ public class songInformation {
 
     @Override
     public String toString() {
-        return "songInformation{" +
-                "songName=" + songName +
-                ", songArtist=" + songArtist +
-                ", songAlbum=" + songAlbum +
-                ", songYear=" + songYear +
-                '}';
+        return getSongName() + " by " + getSongArtist();
     }
 }

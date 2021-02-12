@@ -119,7 +119,7 @@ public class Controller {
 
         Optional<String> result = dialog.showAndWait();
         songInformation test = listView.getSelectionModel().getSelectedItem();
-        if (result.isPresent()) { obsList.set(index, song); }
+        if (result.isPresent()) { obsList.set(index, song   ); }
     }
 
     public void insertSong(javafx.event.ActionEvent actionEvent) {
