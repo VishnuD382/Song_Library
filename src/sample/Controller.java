@@ -5,13 +5,14 @@ import java.io.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Button;
+import java.util.Optional;
 
 public class Controller {
     @FXML
@@ -56,32 +57,70 @@ public class Controller {
             songs[i] = new songInformation(content.get(i));
         }
 
-        System.out.println(content.size());
+//        System.out.println("Printing contents:");
+//        for (String[] strings : content) {
+//            for (String s : strings) {
+//                System.out.print(s + " ");
+//            }
+//            System.out.println();
+//        }
 
-        System.out.println("Printing contents:");
-        for (String[] strings : content) {
-            for (String s : strings) {
-                System.out.print(s + " ");
-            }
-            System.out.println();
-        }
-
+        //making a string of titles
+        String[] titles = new String[songs.length];
         for (int i = 0; i < songs.length; i++) {
-            System.out.println(songs[i]);
+            titles[i] = songs[i].getSongName();
         }
 
 
-        obsList = FXCollections.observableArrayList(
-                "Giants",
-                "Patriots",
-                "49ers",
-                "Rams");
+        obsList = FXCollections.observableArrayList();
 
-        for (String s : datatest) {
+        for (String s : titles) {
             obsList.add(s);
         }
 
         listView.setItems(obsList);
+        listView.getSelectionModel().select(0);
+
+        // set listener for the items
+        listView
+                .getSelectionModel()
+                .selectedIndexProperty()
+                .addListener(
+                        (obs, oldVal, newVal) ->
+                                showItemInputDialog(mainStage));
+
+    }
+
+    private void showItem(Stage mainStage) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.initOwner(mainStage);
+        alert.setTitle("List Item");
+        alert.setHeaderText(
+                "Selected list item properties");
+
+        String content = "Index: " +
+                listView.getSelectionModel()
+                        .getSelectedIndex() +
+                "\nValue: " +
+                listView.getSelectionModel()
+                        .getSelectedItem();
+
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+
+    private void showItemInputDialog(Stage mainStage) {
+        String item = listView.getSelectionModel().getSelectedItem();
+        int index = listView.getSelectionModel().getSelectedIndex();
+
+        TextInputDialog dialog = new TextInputDialog(item);
+        dialog.initOwner(mainStage); dialog.setTitle("List Item");
+        dialog.setHeaderText("Selected Item (Index: " + index + ")");
+        dialog.setContentText("Enter name: ");
+
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) { obsList.set(index, result.get()); }
     }
 
     public void insertSong(javafx.event.ActionEvent actionEvent) {

@@ -64,6 +64,14 @@ public class songInformation {
         this.songYear.set(songYear);
     }
 
+//    public String[] titleNames(songInformation[] songs){
+//        String[] titles = new String[songs.length];
+//        for (int i = 0; i < songs.length; i++) {
+//            titles[i] = songs[i].getSongName();
+//        }
+//        return titles;
+//    }
+
 
     public songInformation(String songName, String songArtist, String songAlbum, String songYear) {
         setSongName(songName);
