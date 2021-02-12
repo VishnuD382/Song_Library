@@ -2,6 +2,8 @@ package sample;
 
 import java.awt.event.ActionEvent;
 import java.io.*;
+
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -181,8 +183,10 @@ public class Controller {
         Optional<Pair<String, String>> result = dialog.showAndWait();
 
         result.ifPresent(usernamePassword -> {
-            System.out.println("Username=" + usernamePassword.getKey() + ", Password=" + usernamePassword.getValue());
+            System.out.println("Song Name=" + usernamePassword.getKey() + ", Password=" + usernamePassword.getValue());
         });
+
+        Platform.runLater(() -> name.requestFocus());
 
         //obsList.add(txtAddItem.getText());
     }
