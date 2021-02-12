@@ -16,12 +16,12 @@ import java.util.Optional;
 
 public class Controller {
     @FXML
-    ListView<String> listView;
+    ListView<songInformation> listView;
 
     @FXML
     private Button BtnAdd;
 
-    private ObservableList<String> obsList;
+    private ObservableList<songInformation> obsList;
 
     @FXML
     private TextField txtAddItem;
@@ -65,20 +65,16 @@ public class Controller {
 //            System.out.println();
 //        }
 
-        //making a string of titles
-        String[] titles = new String[songs.length];
-        for (int i = 0; i < songs.length; i++) {
-            titles[i] = songs[i].getSongName();
-        }
 
+        obsList = FXCollections.observableArrayList(
+                new songInformation("SongTItle", "songArtists", "songalb", "songyear"));
 
-        obsList = FXCollections.observableArrayList();
-
-        for (String s : titles) {
+        for (songInformation s : songs) {
             obsList.add(s);
         }
 
         listView.setItems(obsList);
+
         listView.getSelectionModel().select(0);
 
         // set listener for the items
@@ -111,21 +107,20 @@ public class Controller {
 
 
     private void showItemInputDialog(Stage mainStage) {
-        String item = listView.getSelectionModel().getSelectedItem();
+        String item = listView.getSelectionModel().getSelectedItem().getSongName();
         int index = listView.getSelectionModel().getSelectedIndex();
+
 
         TextInputDialog dialog = new TextInputDialog(item);
         dialog.initOwner(mainStage); dialog.setTitle("List Item");
         dialog.setHeaderText("Selected Item (Index: " + index + ")");
         dialog.setContentText("Enter name: ");
 
-        Optional<String> result = dialog.showAndWait();
-        if (result.isPresent()) { obsList.set(index, result.get()); }
     }
 
     public void insertSong(javafx.event.ActionEvent actionEvent) {
 
-        obsList.add(txtAddItem.getText());
+        //obsList.add(txtAddItem.getText());
         //System.out.println("Added: " + printtest);
     }
 }
