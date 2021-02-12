@@ -50,10 +50,10 @@ public class Controller {
         int count = 0;
 
         List<String[]> content = readCSV();
-        songInformation[] songs = new songInformation[content.size()*4];
+        songInformation[] songs = new songInformation[content.size()];
 
         for (int i = 0; i < content.size(); i++) {
-            songs[i] = new songInformation(content.get(0));
+            songs[i] = new songInformation(content.get(i));
         }
 
         System.out.println(content.size());
@@ -64,6 +64,10 @@ public class Controller {
                 System.out.print(s + " ");
             }
             System.out.println();
+        }
+
+        for (int i = 0; i < songs.length; i++) {
+            System.out.println(songs[i]);
         }
 
 

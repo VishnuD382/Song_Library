@@ -71,4 +71,14 @@ public class songInformation {
         setSongAlbum(songAlbum);
         setSongYear(songYear);
     }
+
+    @Override
+    public String toString() {
+        return "songInformation{" +
+                "songName=" + songName +
+                ", songArtist=" + songArtist +
+                ", songAlbum=" + songAlbum +
+                ", songYear=" + songYear +
+                '}';
+    }
 }
