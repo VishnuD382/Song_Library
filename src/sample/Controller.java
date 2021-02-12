@@ -25,17 +25,12 @@ public class Controller {
     @FXML
     private TextField txtAddItem;
 
-    String[] datatest = {"Chiefs", "Eagles" };
-
-    public void start(Stage mainStage){
-
-        int count = 0;
-        String file = "data.txt";
+    private List<String[]> readCSV(){
         List<String[]> content = new ArrayList<>();
+        String file = "src\\sample\\test.txt";
         try(BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line = "";
             while ((line = br.readLine()) != null) {
-                System.out.println("printing");
                 content.add(line.split(","));
             }
         } catch (FileNotFoundException e) {
@@ -43,6 +38,40 @@ public class Controller {
             System.out.println("File not found!");
         } catch (IOException e) {
             e.printStackTrace();
+            System.out.println("Error");
+        }
+        return content;
+    }
+
+    String[] datatest = {"Chiefs", "Eagles" };
+
+    public void start(Stage mainStage){
+
+        int count = 0;
+
+        List<String[]> content = readCSV();
+
+        String[] cont = content.get(0);
+
+        songInformation[] songs = new songInformation[4];
+
+        String[] lines = {"HotlineBling", "Drake", "Views", "2016"};
+
+        songInformation[] songsnew = new songInformation[lines.length];
+
+        for (int i = 0; i < lines.length-1; i++) {
+            songsnew[i] = new songInformation(lines);
+        }
+
+        System.out.println(songsnew[0].getSongName());
+
+        System.out.println(content.size());
+
+        for (String[] strings : content) {
+            for (String s : strings) {
+                System.out.print(s + " ");
+            }
+            System.out.println();
         }
 
 

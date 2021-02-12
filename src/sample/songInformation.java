@@ -8,8 +8,12 @@ public class songInformation {
     private final SimpleStringProperty songAlbum = new SimpleStringProperty("");
     private final SimpleStringProperty songYear = new SimpleStringProperty("");
 
-    public songInformation() {
-        this("", "", "", "");
+    public songInformation(String[] line) {
+
+        songName.setValue(line[0]);
+        songArtist.setValue(line[1]);
+        songAlbum.setValue(line[2]);
+        songYear.setValue(line[3]);
     }
 
     public String getSongName() {
