@@ -50,23 +50,15 @@ public class Controller {
         int count = 0;
 
         List<String[]> content = readCSV();
+        songInformation[] songs = new songInformation[content.size()*4];
 
-        String[] cont = content.get(0);
-
-        songInformation[] songs = new songInformation[4];
-
-        String[] lines = {"HotlineBling", "Drake", "Views", "2016"};
-
-        songInformation[] songsnew = new songInformation[lines.length];
-
-        for (int i = 0; i < lines.length-1; i++) {
-            songsnew[i] = new songInformation(lines);
+        for (int i = 0; i < content.size(); i++) {
+            songs[i] = new songInformation(content.get(0));
         }
-
-        System.out.println(songsnew[0].getSongName());
 
         System.out.println(content.size());
 
+        System.out.println("Printing contents:");
         for (String[] strings : content) {
             for (String s : strings) {
                 System.out.print(s + " ");
