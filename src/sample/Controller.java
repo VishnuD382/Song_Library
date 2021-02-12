@@ -107,15 +107,19 @@ public class Controller {
 
 
     private void showItemInputDialog(Stage mainStage) {
-        String item = listView.getSelectionModel().getSelectedItem().getSongName();
+        songInformation song = listView.getSelectionModel().getSelectedItem();
+        String songName = song.getSongName();
         int index = listView.getSelectionModel().getSelectedIndex();
 
 
-        TextInputDialog dialog = new TextInputDialog(item);
+        TextInputDialog dialog = new TextInputDialog(songName);
         dialog.initOwner(mainStage); dialog.setTitle("List Item");
         dialog.setHeaderText("Selected Item (Index: " + index + ")");
         dialog.setContentText("Enter name: ");
 
+        Optional<String> result = dialog.showAndWait();
+        songInformation test = listView.getSelectionModel().getSelectedItem();
+        if (result.isPresent()) { obsList.set(index, song); }
     }
 
     public void insertSong(javafx.event.ActionEvent actionEvent) {
