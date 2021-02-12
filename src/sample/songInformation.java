@@ -1,4 +1,4 @@
-package sample;
+package sample; // change the name of package
 import javafx.beans.property.SimpleStringProperty;
 
 public class songInformation {
@@ -10,26 +10,6 @@ public class songInformation {
 
     public songInformation() {
         this("", "", "", "");
-    }
-
-    public String getSongName() {
-        return songName.get();
-    }
-
-    public SimpleStringProperty songNameProperty() {
-        return songName;
-    }
-
-    public String getSongArtist() {
-        return songArtist.get();
-    }
-
-    public SimpleStringProperty songArtistProperty() {
-        return songArtist;
-    }
-
-    public String getSongAlbum() {
-        return songAlbum.get();
     }
 
     public SimpleStringProperty songAlbumProperty() {
@@ -58,6 +38,26 @@ public class songInformation {
 
     public void setSongYear(String songYear) {
         this.songYear.set(songYear);
+    }
+
+    public String getSongName() {
+        return songName.get();
+    }
+
+    public SimpleStringProperty songNameProperty() {
+        return songName;
+    }
+
+    public String getSongArtist() {
+        return songArtist.get();
+    }
+
+    public SimpleStringProperty songArtistProperty() {
+        return songArtist;
+    }
+
+    public String getSongAlbum() {
+        return songAlbum.get();
     }
 
 

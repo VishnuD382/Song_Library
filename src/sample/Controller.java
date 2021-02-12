@@ -1,4 +1,4 @@
-package sample;
+package sample; //change the name of the package
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.*;

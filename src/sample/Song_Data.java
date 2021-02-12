@@ -1,4 +1,4 @@
-package sample.Project_Data;
+package sample; //change the name of package
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -62,21 +62,21 @@ public class Song_Data {
                         if (event.asStartElement().getName().getLocalPart()
                                 .equals(ARTIST)) {
                             event = eventReader.nextEvent();
-                            song.setArtist(event.asCharacters().getData());
+                            song.setSongArtist(event.asCharacters().getData());
                             continue;
                         }
                     }
                     if (event.asStartElement().getName().getLocalPart()
                             .equals(ALBUM)) {
                         event = eventReader.nextEvent();
-                        song.setAlbum(event.asCharacters().getData());
+                        song.setSongAlbum(event.asCharacters().getData());
                         continue;
                     }
 
                     if (event.asStartElement().getName().getLocalPart()
                             .equals(YEAR)) {
                         event = eventReader.nextEvent();
-                        song.setYear(event.asCharacters().getData());
+                        song.setSongYear(event.asCharacters().getData());
                         continue;
                     }
                 }
@@ -118,7 +118,7 @@ public class Song_Data {
             eventWriter.add(songsStartElement);
             eventWriter.add(end);
 
-            for (Song_Data_Skeleton song : songs) {
+            for (songInformation song : songs) {
                 saveSongs();
             }
 
@@ -136,7 +136,7 @@ public class Song_Data {
     }
 
 
-    private void saveContact(XMLEventWriter eventWriter, XMLEventFactory eventFactory, Song_Data_Skeleton song)
+    private void saveContact(XMLEventWriter eventWriter, XMLEventFactory eventFactory, songInformation song)
             throws FileNotFoundException, XMLStreamException {
 
         XMLEvent end = eventFactory.createDTD("\n");
@@ -147,9 +147,9 @@ public class Song_Data {
         eventWriter.add(configStartElement);
         eventWriter.add(end);
         // Write the different nodes
-        createNode(eventWriter, ARTIST, song.getArtist());
-        createNode(eventWriter, ALBUM, song.getAlbum());
-        createNode(eventWriter, YEAR, song.getYear());
+        createNode(eventWriter, ARTIST, song.getSongArtist());
+        createNode(eventWriter, ALBUM, song.getSongAlbum());
+        createNode(eventWriter, YEAR, song.getSongYear());
 
         eventWriter.add(eventFactory.createEndElement("", "", SONG_NAME));
         eventWriter.add(end);
