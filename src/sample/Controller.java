@@ -36,10 +36,10 @@ public class Controller {
     @FXML
     private TextField txtAddItem;
 
-    private List<String[]> readCSV(){
+    private List<String[]> readCSV() {
         List<String[]> content = new ArrayList<>();
         String file = "src\\sample\\test.txt";
-        try(BufferedReader br = new BufferedReader(new FileReader(file))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line = "";
             while ((line = br.readLine()) != null) {
                 content.add(line.split(","));
@@ -54,9 +54,9 @@ public class Controller {
         return content;
     }
 
-    String[] datatest = {"Chiefs", "Eagles" };
+    String[] datatest = {"Chiefs", "Eagles"};
 
-    public void start(Stage mainStage){
+    public void start(Stage mainStage) {
 
         int count = 0;
 
@@ -110,7 +110,7 @@ public class Controller {
                 songName +
                 "\nArtist : " +
                 song.getSongArtist() +
-                "\nAlbum: " + song.getSongAlbum()+
+                "\nAlbum: " + song.getSongAlbum() +
                 "\nYear: " + song.getSongYear();
 
         alert.setContentText(content);
@@ -125,13 +125,16 @@ public class Controller {
 
 
         TextInputDialog dialog = new TextInputDialog(songName);
-        dialog.initOwner(mainStage); dialog.setTitle("List Item");
+        dialog.initOwner(mainStage);
+        dialog.setTitle("List Item");
         dialog.setHeaderText("Selected Item (Index: " + index + ")");
         dialog.setContentText("Enter name: ");
 
         Optional<String> result = dialog.showAndWait();
         songInformation test = listView.getSelectionModel().getSelectedItem();
-        if (result.isPresent()) { obsList.set(index, song   ); }
+        if (result.isPresent()) {
+            obsList.set(index, song);
+        }
     }
 
     public void insertSong(javafx.event.ActionEvent actionEvent) {
@@ -174,20 +177,29 @@ public class Controller {
         // Do some validation (using the Java 8 lambda syntax).
         name.textProperty().addListener((observable, oldValue, newValue) -> {
             artist.textProperty().addListener((observable1, oldValue1, newValue1) -> {
-                addButton.setDisable(newValue.trim().isEmpty());});
+                addButton.setDisable(newValue.trim().isEmpty());
+            });
         });
 
 
         dialog.getDialogPane().setContent(grid);
 
+        Platform.runLater(() -> name.requestFocus());
+
+        // Convert the result to a username-password-pair when the login button is clicked.
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == addButtonType) {
+                return new Pair<>(name.getText(), artist.getText());
+            }
+            return null;
+        });
+
         Optional<Pair<String, String>> result = dialog.showAndWait();
 
         result.ifPresent(usernamePassword -> {
-            System.out.println("Song Name=" + usernamePassword.getKey() + ", Password=" + usernamePassword.getValue());
+            System.out.println("Username=" + usernamePassword.getKey() + ", Password=" + usernamePassword.getValue());
+
+            //obsList.add(txtAddItem.getText());
         });
-
-        Platform.runLater(() -> name.requestFocus());
-
-        //obsList.add(txtAddItem.getText());
     }
 }
