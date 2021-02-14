@@ -7,7 +7,10 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Dialog;
@@ -30,6 +33,9 @@ public class Controller {
 
     @FXML
     private Button BtnAdd;
+
+    @FXML
+    private Button addSong;
 
     private ObservableList<songInformation> obsList;
 
@@ -137,69 +143,10 @@ public class Controller {
         }
     }
 
-    public void insertSong(javafx.event.ActionEvent actionEvent) {
-        Dialog<Pair<String, String>> dialog = new Dialog<>();
-        dialog.setTitle("Add Song");
-        dialog.setHeaderText("Add a song to the List");
+    public void insertSong(javafx.event.ActionEvent actionEvent) throws IOException {
+        Parent newRoot = FXMLLoader.load(getClass().getResource("test.fxml"));
+        Stage stage2 = (Stage) addSong.getScene().getWindow();
 
-        ButtonType addButtonType = new ButtonType("Add", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(addButtonType, ButtonType.CANCEL);
-
-        // Create the username and password labels and fields.
-        GridPane grid = new GridPane();
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(20, 150, 10, 10));
-
-        TextField name = new TextField();
-        name.setPromptText("Song Name");
-        TextField artist = new TextField();
-        artist.setPromptText("Song artist");
-        TextField album = new TextField();
-        album.setPromptText("Song album");
-        TextField year = new TextField();
-        year.setPromptText("Song year");
-
-
-        grid.add(new Label("Song Name:"), 0, 0);
-        grid.add(name, 1, 0);
-        grid.add(new Label("Song Artist:"), 0, 1);
-        grid.add(artist, 1, 1);
-        grid.add(new Label("Song album:"), 0, 2);
-        grid.add(album, 1, 2);
-        grid.add(new Label("Song Year:"), 0, 3);
-        grid.add(year, 1, 3);
-
-        // enabling and disabling add button
-        Node addButton = dialog.getDialogPane().lookupButton(addButtonType);
-        addButton.setDisable(true);
-
-        // Do some validation (using the Java 8 lambda syntax).
-        name.textProperty().addListener((observable, oldValue, newValue) -> {
-            artist.textProperty().addListener((observable1, oldValue1, newValue1) -> {
-                addButton.setDisable(newValue.trim().isEmpty());
-            });
-        });
-
-
-        dialog.getDialogPane().setContent(grid);
-
-        Platform.runLater(() -> name.requestFocus());
-
-        // Convert the result to a username-password-pair when the login button is clicked.
-        dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == addButtonType) {
-                return new Pair<>(name.getText(), artist.getText());
-            }
-            return null;
-        });
-
-        Optional<Pair<String, String>> result = dialog.showAndWait();
-
-        result.ifPresent(usernamePassword -> {
-            System.out.println("Username=" + usernamePassword.getKey() + ", Password=" + usernamePassword.getValue());
-
-            //obsList.add(txtAddItem.getText());
-        });
+        stage2.getScene().setRoot(newRoot);
     }
 }
