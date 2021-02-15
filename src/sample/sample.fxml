@@ -38,16 +38,7 @@
                </children>
             </GridPane>
             <HBox id="HBox" fx:id="HBox4Btns" alignment="CENTER" spacing="5.0" style="-fx-padding: 5 5 10 5;" />
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
             <Button fx:id="add" mnemonicParsing="false" onAction="#insertSongScene" text="Add" />
-=======
->>>>>>> parent of d0d2b1b (Adding Switching of scenes)
-=======
->>>>>>> parent of d0d2b1b (Adding Switching of scenes)
-=======
->>>>>>> parent of d0d2b1b (Adding Switching of scenes)
           </children>
         </VBox>
       </children>

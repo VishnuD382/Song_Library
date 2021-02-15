@@ -1,55 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
+<!-- Author: Forrest Smith, Jim Tang -->
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
-  <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-  </columnConstraints>
-  <rowConstraints>
-    <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-  </rowConstraints>
-   <children>
-      <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="17.0" prefWidth="272.0" text="Song Name:" GridPane.rowIndex="1" />
-      <TextField fx:id="name" prefWidth="56.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-      <TextField fx:id="artist" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-      <TextField fx:id="album" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-      <TextField fx:id="year" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-      <Button fx:id="addSong" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#insertSong" text="Add Song" textAlignment="CENTER" translateX="-50.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
-         <GridPane.margin>
-            <Insets bottom="20.0" left="20.0" right="20.0" />
-         </GridPane.margin>
-      </Button>
-      <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="17.0" prefWidth="181.0" text="Add a Song">
-         <font>
-            <Font name="System Bold" size="22.0" />
-         </font>
-         <GridPane.margin>
-            <Insets />
-         </GridPane.margin>
-         <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-         </padding>
-      </Label>
-      <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="17.0" prefWidth="272.0" text="Artist:" GridPane.rowIndex="2" />
-      <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="17.0" prefWidth="272.0" text="Album:" GridPane.rowIndex="3" />
-      <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="17.0" prefWidth="272.0" text="Year:" GridPane.rowIndex="4" />
-      <Button fx:id="cancelBtn" mnemonicParsing="false" text="Cancel" translateX="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
-         <GridPane.margin>
-            <Insets bottom="20.0" left="20.0" right="20.0" />
-         </GridPane.margin>
-      </Button>
-   </children>
-   <padding>
-      <Insets bottom="-10.0" left="-30.0" right="30.0" top="10.0" />
-   </padding>
-</GridPane>
+<BorderPane id="Root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="390.0" prefWidth="794.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Control.ListController">
+    <top>
+        <MenuBar id="MenuBar" BorderPane.alignment="CENTER">
+            <menus>
+                <Menu id="FileMenu" mnemonicParsing="false" text="File">
+                    <items>
+
+                        <MenuItem id="MenuItemDeleteAll" mnemonicParsing="false" onAction="#DeleteAll" text="Delete All" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+    <center>
+        <TitledPane id="TitlePaneSong" animated="false" collapsible="false" prefHeight="375.0" prefWidth="528.0" text="Song Details" BorderPane.alignment="TOP_CENTER">
+            <content>
+                <AnchorPane id="AnchroPaneSongDetails" minHeight="0.0" minWidth="0.0" prefHeight="309.0" prefWidth="592.0">
+                    <children>
+                        <ButtonBar id="ButtonBar" layoutX="94.0" layoutY="295.0" prefHeight="40.0" prefWidth="364.0" AnchorPane.leftAnchor="94.0" AnchorPane.rightAnchor="153.20000000000005">
+                            <buttons>
+                                <Button id="ButtonDelete" mnemonicParsing="false" onAction="#DeleteSong" text="Delete" textAlignment="CENTER" translateX="-80.0" />
+                                <Button id="ButtonUpdate" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#UpdateSong" text="Edit" textAlignment="CENTER" translateX="-40.0" />
+                                <Button id="ButtonUpdate" alignment="CENTER" mnemonicParsing="false" onAction="#AddSong" text="Add" textAlignment="CENTER" />
+                            </buttons>
+                        </ButtonBar>
+                        <!--                  <Text id="TextSongName" layoutX="66.0" layoutY="119.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No songs in list!" textAlignment="CENTER" wrappingWidth="200.0" />-->
+                        <!--                  <Text id="TextSongArtist" layoutX="66.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-" textAlignment="CENTER" wrappingWidth="200.0" />-->
+                        <!--                  <Text id="TextSongAlbum" layoutX="66.0" layoutY="159.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-" textAlignment="CENTER" wrappingWidth="200.0" />-->
+                        <!--                  <Text id="TextSongYear" layoutX="66.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-" textAlignment="CENTER" wrappingWidth="200.0" />-->
+                        <TextArea id="EditSongName" fx:id="song" layoutX="373.0" layoutY="48.0" prefHeight="34.0" prefWidth="200.0" />
+                        <Text id="TitleEditSongName" layoutX="420.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Song Name" textAlignment="CENTER" wrappingWidth="105.13671875" />
+                        <TextArea id="EditArtist" fx:id="artist" layoutX="373.0" layoutY="104.0" prefHeight="34.0" prefWidth="200.0" />
+                        <Text id="TitleEditArtist" layoutX="420.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Artist" textAlignment="CENTER" wrappingWidth="105.13671875" />
+                        <TextArea id="EditAlbum" fx:id="album" layoutX="373.0" layoutY="164.0" prefHeight="34.0" prefWidth="200.0" />
+                        <Text id="TitleEditAlbum" layoutX="420.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Album" textAlignment="CENTER" wrappingWidth="105.13671875" />
+                        <TextArea id="EditYear" fx:id="year" layoutX="373.0" layoutY="225.0" prefHeight="34.0" prefWidth="200.0" />
+                        <Text id="TitleEditYear" layoutX="420.0" layoutY="221.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Year" textAlignment="CENTER" wrappingWidth="105.13671875" />
+                    </children>
+                </AnchorPane>
+            </content>
+        </TitledPane>
+    </center>
+    <left>
+        <ListView id="ListView" fx:id="listView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+    </left>
+</BorderPane>
