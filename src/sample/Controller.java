@@ -32,6 +32,7 @@ public class Controller {
     private Button BtnAdd;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     @FXML
     private Button add;
 
@@ -49,6 +50,8 @@ public class Controller {
 
 
     //ObsList holds all the songs
+=======
+>>>>>>> parent of d0d2b1b (Adding Switching of scenes)
 =======
 >>>>>>> parent of d0d2b1b (Adding Switching of scenes)
     private ObservableList<songInformation> obsList;
@@ -195,7 +198,10 @@ public class Controller {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> parent of d0d2b1b (Adding Switching of scenes)
     public void insertSong(javafx.event.ActionEvent actionEvent) {
         Dialog<Pair<String, String>> dialog = new Dialog<>();
         dialog.setTitle("Add Song");
@@ -252,12 +258,21 @@ public class Controller {
             }
             return null;
         });
+<<<<<<< HEAD
 
         Optional<Pair<String, String>> result = dialog.showAndWait();
 
         result.ifPresent(usernamePassword -> {
             System.out.println("Username=" + usernamePassword.getKey() + ", Password=" + usernamePassword.getValue());
 
+=======
+
+        Optional<Pair<String, String>> result = dialog.showAndWait();
+
+        result.ifPresent(usernamePassword -> {
+            System.out.println("Username=" + usernamePassword.getKey() + ", Password=" + usernamePassword.getValue());
+
+>>>>>>> parent of d0d2b1b (Adding Switching of scenes)
             //obsList.add(txtAddItem.getText());
         });
     }

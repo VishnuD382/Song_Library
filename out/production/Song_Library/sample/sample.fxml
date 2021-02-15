@@ -15,10 +15,13 @@
               </font>
             </Label>
 <<<<<<< HEAD
+<<<<<<< HEAD
             <ListView fx:id="listView" prefHeight="276.0" prefWidth="440.0" />
             <HBox id="HBox" fx:id="HBox4Btns" alignment="CENTER" spacing="5.0" style="-fx-padding: 5 5 10 5;" />
             <Button fx:id="add" mnemonicParsing="false" onAction="#insertSongScene" text="Add" />
 =======
+=======
+>>>>>>> parent of d0d2b1b (Adding Switching of scenes)
             <ListView fx:id="listView" prefHeight="200.0" prefWidth="200.0" />
             <Label id="TextLbl" fx:id="LblAddText" text="Enter Text" />
             <TextField fx:id="txtAddItem" prefWidth="200.0" />
@@ -28,6 +31,9 @@
                  <Button fx:id="BtnDelete" mnemonicParsing="false" text="Delete" />
               </children>
             </HBox>
+<<<<<<< HEAD
+>>>>>>> parent of d0d2b1b (Adding Switching of scenes)
+=======
 >>>>>>> parent of d0d2b1b (Adding Switching of scenes)
           </children>
         </VBox>
