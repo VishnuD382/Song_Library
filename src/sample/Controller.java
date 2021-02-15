@@ -144,7 +144,7 @@ public class Controller {
     }
 
     public void insertSong(javafx.event.ActionEvent actionEvent) throws IOException {
-        Parent newRoot = FXMLLoader.load(getClass().getResource("test.fxml"));
+        Parent newRoot = FXMLLoader.load(getClass().getResource("add.fxml"));
         Stage stage2 = (Stage) addSong.getScene().getWindow();
 
         stage2.getScene().setRoot(newRoot);
