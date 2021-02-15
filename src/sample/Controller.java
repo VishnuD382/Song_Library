@@ -35,9 +35,28 @@ public class Controller {
     private Button BtnAdd;
 
     @FXML
-    private Button addSong;
+    private Button add;
 
+    @FXML
+    private TextField name;
+
+    @FXML
+    private TextField artist;
+
+    @FXML
+    private TextField album;
+
+    @FXML
+    private TextField year;
+
+
+    //ObsList holds all the songs
     private ObservableList<songInformation> obsList;
+
+    public Controller(ObservableList<songInformation> obsList) {
+        this.obsList= obsList ;
+    }
+
 
     @FXML
     private TextField txtAddItem;
@@ -60,11 +79,9 @@ public class Controller {
         return content;
     }
 
-    String[] datatest = {"Chiefs", "Eagles"};
+
 
     public void start(Stage mainStage) {
-
-        int count = 0;
 
         List<String[]> content = readCSV();
         songInformation[] songs = new songInformation[content.size()];
@@ -72,15 +89,6 @@ public class Controller {
         for (int i = 0; i < content.size(); i++) {
             songs[i] = new songInformation(content.get(i));
         }
-
-//        System.out.println("Printing contents:");
-//        for (String[] strings : content) {
-//            for (String s : strings) {
-//                System.out.print(s + " ");
-//            }
-//            System.out.println();
-//        }
-
 
         obsList = FXCollections.observableArrayList(
                 new songInformation("SongTItle", "songArtists", "songalb", "songyear"));
@@ -90,6 +98,7 @@ public class Controller {
         }
 
         listView.setItems(obsList);
+
 
         listView.getSelectionModel().select(0);
 
@@ -124,6 +133,48 @@ public class Controller {
     }
 
 
+
+    // new Scene to add new songs
+    public void insertSongScene(javafx.event.ActionEvent actionEvent) throws IOException {
+        Parent newRoot = FXMLLoader.load(getClass().getResource("add.fxml"));
+        Stage stage2 = (Stage) add.getScene().getWindow();
+        stage2.getScene().setRoot(newRoot);
+    }
+
+
+
+    public ObservableList <songInformation> getList(){
+        return obsList;
+    }
+
+    // will handle the add of new songs
+    public void insertSong(javafx.event.ActionEvent actionEvent) throws IOException {
+
+        ObservableList<songInformation> newObsList;
+
+        String albumFiller = "";
+        String yearFiller = "";
+        if(!name.getText().isEmpty() && !artist.getText().isEmpty()){
+            if(!album.getText().isEmpty()){
+                albumFiller = album.getText();
+            }
+            if (!year.getText().isEmpty()){
+                yearFiller = year.getText();
+            }
+            songInformation newSong = new songInformation(name.getText(), artist.getText(), year.getText(), album.getText());
+            //obsList.add(newSong);
+            System.out.println(getList());
+            System.out.println(name.getText());
+
+        }else{
+            System.out.println("Did not enter song name or artist");
+        }
+    }
+
+
+
+
+    // not in use
     private void showItemInputDialog(Stage mainStage) {
         songInformation song = listView.getSelectionModel().getSelectedItem();
         String songName = song.getSongName();
@@ -143,10 +194,4 @@ public class Controller {
         }
     }
 
-    public void insertSong(javafx.event.ActionEvent actionEvent) throws IOException {
-        Parent newRoot = FXMLLoader.load(getClass().getResource("add.fxml"));
-        Stage stage2 = (Stage) addSong.getScene().getWindow();
-
-        stage2.getScene().setRoot(newRoot);
-    }
 }

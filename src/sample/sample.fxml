@@ -15,7 +15,7 @@
             </Label>
             <ListView fx:id="listView" prefHeight="276.0" prefWidth="440.0" />
             <HBox id="HBox" fx:id="HBox4Btns" alignment="CENTER" spacing="5.0" style="-fx-padding: 5 5 10 5;" />
-            <Button  fx:id="addSong" mnemonicParsing="false" onAction="#insertSong" text="Add" />
+            <Button fx:id="add" mnemonicParsing="false" onAction="#insertSongScene" text="Add" />
           </children>
         </VBox>
       </children>
