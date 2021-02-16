@@ -96,7 +96,7 @@ public class Controller {
         for (songInformation s : songs) {
             obsList.add(s);
         }
-        
+
 
         listView.setItems(obsList);
 
@@ -177,8 +177,7 @@ public class Controller {
             songInformation newSong = new songInformation(name.getText(), artist.getText(), yearFiller, albumFiller);
 
             if (!duplicate(obsList, name.getText(), artist.getText())){
-                obsList.add(newSong);
-
+                obsList.add(0,newSong);
                 saveFile(obsList);
 
                 System.out.println(name.getText());
@@ -201,9 +200,6 @@ public class Controller {
             if((songList.get(i).getSongName().equals(songName)) && (songList.get(i).getSongArtist().equals(songArtist))){
 
                 return true;
-            }
-            else{
-
             }
         }
         return false;
