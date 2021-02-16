@@ -1,54 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- Author: Forrest Smith, Jim Tang -->
-
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane id="Root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="390.0" prefWidth="794.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Control.ListController">
-    <top>
-        <MenuBar id="MenuBar" BorderPane.alignment="CENTER">
-            <menus>
-                <Menu id="FileMenu" mnemonicParsing="false" text="File">
-                    <items>
-
-                        <MenuItem id="MenuItemDeleteAll" mnemonicParsing="false" onAction="#DeleteAll" text="Delete All" />
-                    </items>
-                </Menu>
-            </menus>
-        </MenuBar>
-    </top>
-    <center>
-        <TitledPane id="TitlePaneSong" animated="false" collapsible="false" prefHeight="375.0" prefWidth="528.0" text="Song Details" BorderPane.alignment="TOP_CENTER">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+    <bottom>
+        <ListView fx:id="" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+    </bottom>
+    <left>
+        <TitledPane animated="false" text="Song Library" BorderPane.alignment="CENTER">
             <content>
-                <AnchorPane id="AnchroPaneSongDetails" minHeight="0.0" minWidth="0.0" prefHeight="309.0" prefWidth="592.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="221.0" prefWidth="598.0">
                     <children>
-                        <ButtonBar id="ButtonBar" layoutX="94.0" layoutY="295.0" prefHeight="40.0" prefWidth="364.0" AnchorPane.leftAnchor="94.0" AnchorPane.rightAnchor="153.20000000000005">
+                        <ButtonBar layoutY="132.0" prefHeight="40.0" prefWidth="200.0">
                             <buttons>
-                                <Button id="ButtonDelete" mnemonicParsing="false" onAction="#DeleteSong" text="Delete" textAlignment="CENTER" translateX="-80.0" />
-                                <Button id="ButtonUpdate" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#UpdateSong" text="Edit" textAlignment="CENTER" translateX="-40.0" />
-                                <Button id="ButtonUpdate" alignment="CENTER" mnemonicParsing="false" onAction="#AddSong" text="Add" textAlignment="CENTER" />
+                                <Button mnemonicParsing="false" text="Add" />
+                                <Button mnemonicParsing="false" text="Delete" />
+                                <Button mnemonicParsing="false" text="Edit" />
                             </buttons>
                         </ButtonBar>
-                        <!--                  <Text id="TextSongName" layoutX="66.0" layoutY="119.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No songs in list!" textAlignment="CENTER" wrappingWidth="200.0" />-->
-                        <!--                  <Text id="TextSongArtist" layoutX="66.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-" textAlignment="CENTER" wrappingWidth="200.0" />-->
-                        <!--                  <Text id="TextSongAlbum" layoutX="66.0" layoutY="159.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-" textAlignment="CENTER" wrappingWidth="200.0" />-->
-                        <!--                  <Text id="TextSongYear" layoutX="66.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-" textAlignment="CENTER" wrappingWidth="200.0" />-->
-                        <TextArea id="EditSongName" fx:id="song" layoutX="373.0" layoutY="48.0" prefHeight="34.0" prefWidth="200.0" />
-                        <Text id="TitleEditSongName" layoutX="420.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Song Name" textAlignment="CENTER" wrappingWidth="105.13671875" />
-                        <TextArea id="EditArtist" fx:id="artist" layoutX="373.0" layoutY="104.0" prefHeight="34.0" prefWidth="200.0" />
-                        <Text id="TitleEditArtist" layoutX="420.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Artist" textAlignment="CENTER" wrappingWidth="105.13671875" />
-                        <TextArea id="EditAlbum" fx:id="album" layoutX="373.0" layoutY="164.0" prefHeight="34.0" prefWidth="200.0" />
-                        <Text id="TitleEditAlbum" layoutX="420.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Album" textAlignment="CENTER" wrappingWidth="105.13671875" />
-                        <TextArea id="EditYear" fx:id="year" layoutX="373.0" layoutY="225.0" prefHeight="34.0" prefWidth="200.0" />
-                        <Text id="TitleEditYear" layoutX="420.0" layoutY="221.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Year" textAlignment="CENTER" wrappingWidth="105.13671875" />
+                        <TextField layoutX="388.0" layoutY="52.0" />
+                        <TextField layoutX="388.0" layoutY="7.0" />
+                        <TextField layoutX="388.0" layoutY="98.0" />
+                        <TextField layoutX="388.0" layoutY="138.0" />
+                        <Label layoutX="318.0" layoutY="12.0" text="Song Name:" />
+                        <Label layoutX="352.0" layoutY="57.0" prefHeight="17.0" prefWidth="32.0" text="Artist:" textAlignment="RIGHT" />
+                        <Label layoutX="348.0" layoutY="103.0" prefHeight="17.0" prefWidth="41.0" text="Album:" textAlignment="RIGHT" />
+                        <Label alignment="CENTER" contentDisplay="RIGHT" layoutX="345.0" layoutY="143.0" prefHeight="17.0" prefWidth="48.0" text="Year:" textAlignment="RIGHT" />
                     </children>
                 </AnchorPane>
             </content>
         </TitledPane>
-    </center>
-    <left>
-        <ListView id="ListView" fx:id="listView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
     </left>
-</BorderPane>
+</GridPane>

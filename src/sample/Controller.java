@@ -15,16 +15,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
 
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.geometry.*;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import org.w3c.dom.Text;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+//add COmpare To Ignore case.
+
+import java.util.*;
 
 public class Controller {
     @FXML
@@ -48,23 +48,20 @@ public class Controller {
     @FXML
     private TextField year;
 
+    private Stage tempStage;
 
     //ObsList holds all the songs
-
     private ObservableList<songInformation> obsList;
 
 
-
-    @FXML
-    private TextField txtAddItem;
-
+    // fucntion to read in a csv file
     private List<String[]> readCSV() {
         List<String[]> content = new ArrayList<>();
         String file = "src\\sample\\test.txt";
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line = "";
             while ((line = br.readLine()) != null) {
-                content.add(line.split(","));
+                content.add(line.split("="));
             }
         } catch (FileNotFoundException e) {
             //Some error logging
@@ -77,11 +74,17 @@ public class Controller {
     }
 
 
-
+    // start function
     public void start(Stage mainStage) {
 
         List<String[]> content = readCSV();
         songInformation[] songs = new songInformation[content.size()];
+
+        for (int i = 0; i < content.size(); i++) {
+            System.out.println(Arrays.toString(content.get(i)) );
+        }
+
+        System.out.println(content.size());
 
         for (int i = 0; i < content.size(); i++) {
             songs[i] = new songInformation(content.get(i));
@@ -93,11 +96,13 @@ public class Controller {
         for (songInformation s : songs) {
             obsList.add(s);
         }
+        
 
         listView.setItems(obsList);
 
-
         listView.getSelectionModel().select(0);
+
+        tempStage = mainStage;
 
         // set listener for the items
         listView
@@ -109,24 +114,35 @@ public class Controller {
 
     }
 
-    private void showItem(Stage mainStage) {
+    private void errorMsg(Stage mainStage, String errorType) {
         songInformation song = listView.getSelectionModel().getSelectedItem();
         String songName = song.getSongName();
+        String content;
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.initOwner(mainStage);
-        alert.setTitle("List Item");
+        alert.setTitle("Error Message");
         alert.setHeaderText(
-                "Selected list item properties");
+                "Error Adding Song");
 
-        String content = "Name: " +
-                songName +
-                "\nArtist : " +
-                song.getSongArtist() +
-                "\nAlbum: " + song.getSongAlbum() +
-                "\nYear: " + song.getSongYear();
+        if(errorType.equals("temp")){
+            content = "This is a duplicate song!";
+        }
+        else{
+            content = "Input both song name and artist!";
+        }
+
 
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    private void showItem(Stage mainStage) {
+        songInformation song = listView.getSelectionModel().getSelectedItem();
+
+        name.setText(song.getSongName());
+        artist.setText(song.getSongArtist());
+        album.setText(song.getSongAlbum());
+        year.setText(song.getSongYear());
     }
 
 
@@ -158,13 +174,55 @@ public class Controller {
             if (!year.getText().isEmpty()){
                 yearFiller = year.getText();
             }
-            songInformation newSong = new songInformation(name.getText(), artist.getText(), year.getText(), album.getText());
-            //obsList.add(newSong);
-            System.out.println(getList());
-            System.out.println(name.getText());
+            songInformation newSong = new songInformation(name.getText(), artist.getText(), yearFiller, albumFiller);
+
+            if (!duplicate(obsList, name.getText(), artist.getText())){
+                obsList.add(newSong);
+
+                saveFile(obsList);
+
+                System.out.println(name.getText());
+            }else{
+                errorMsg(tempStage, "temp");
+            }
+
+
 
         }else{
             System.out.println("Did not enter song name or artist");
+            errorMsg(tempStage, "error");
+        }
+    }
+
+
+    public static boolean duplicate(ObservableList <songInformation> songList, String songName, String songArtist){
+
+        for (int i = 0; i < songList.size(); i++) {
+            if((songList.get(i).getSongName().equals(songName)) && (songList.get(i).getSongArtist().equals(songArtist))){
+
+                return true;
+            }
+            else{
+
+            }
+        }
+        return false;
+    }
+
+    public static void saveFile(ObservableList <songInformation> songList){
+        try{
+            String fileName = "src\\sample\\output.txt";
+            PrintWriter writer = new PrintWriter(fileName);
+            for (songInformation song : songList){
+                StringJoiner sj = new StringJoiner("||");
+                sj.add(song.getSongName());
+                sj.add(song.getSongArtist());
+                sj.add(song.getSongAlbum());
+                writer.println(sj.toString());
+            }
+            writer.close();
+        } catch (FileNotFoundException e){
+            System.out.println("File not found.");
         }
     }
 
