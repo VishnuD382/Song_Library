@@ -191,6 +191,8 @@ public class Controller {
             System.out.println("Did not enter song name or artist");
             errorMsg(tempStage, "error");
         }
+        // Attempting to add sort
+        sort(obsList);
     }
 
 
@@ -222,6 +224,22 @@ public class Controller {
         }
     }
 
+    // Attempt at sorting
+    private static void sort(ObservableList <songInformation> songList) {
+
+        for (int i = 0; i < songList.size(); i++)
+        {
+            for (int j = i + 1; j < songList.size(); j++)
+            {
+                if (songList.get(i).toString().compareTo(songList.get(j).toString())>0)
+                {
+                    songInformation s = new songInformation(songList.get(i).getSongName(),songList.get(i).getSongArtist(),songList.get(i).getSongAlbum(),songList.get(i).getSongYear());
+                    songList.set(i, songList.get(j));
+                    songList.set(j, s);
+                }
+            }
+        }
+    }
 
 
 
