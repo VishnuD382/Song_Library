@@ -1,26 +1,17 @@
 package sample;
 
-import java.awt.event.ActionEvent;
-import java.io.*;
 
-import javafx.application.Platform;
+import java.io.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
-
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.geometry.*;
 import javafx.stage.Stage;
-import javafx.util.Pair;
-import org.w3c.dom.Text;
+
 
 //add COmpare To Ignore case.
 
@@ -97,12 +88,17 @@ public class Controller {
             obsList.add(s);
         }
 
-        sort(obsList);
+        //sort(obsList);
         listView.setItems(obsList);
 
-        listView.getSelectionModel().select(0);
 
-        // set listener for the items
+        if(!listView.getItems().isEmpty()){
+            listView.getSelectionModel().select(0);
+            showItem(mainStage);
+        }
+
+
+         //set listener for the items
         listView
                 .getSelectionModel()
                 .selectedIndexProperty()
@@ -113,20 +109,33 @@ public class Controller {
     }
 
     private void errorMsg(Stage mainStage, String errorType) {
-        songInformation song = listView.getSelectionModel().getSelectedItem();
-        String songName = song.getSongName();
+
         String content;
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.initOwner(mainStage);
         alert.setTitle("Error Message");
-        alert.setHeaderText(
-                "Error Adding Song");
+
 
         if(errorType.equals("temp")){
+            alert.setHeaderText(
+                    "Error Adding Song");
+
             content = "This is a duplicate song!";
         }
+        else if(errorType.equals("delete")){
+            alert.setHeaderText(
+                    "Error Deleting Song");
+
+            content = "No Song to Delete!";
+        }
+        else if(errorType.equals("edit")) {
+            alert.setHeaderText(
+                    "Error Editing Song");
+
+            content = "No Song to Edit!";
+        }
         else{
-            content = "Input both song name and artist!";
+            content = "Input both song name and artist!" + errorType;
         }
 
 
@@ -138,10 +147,18 @@ public class Controller {
         songInformation song = listView.getSelectionModel().getSelectedItem();
         System.out.println("etnering");
 
-        name.setText(song.getSongName());
-        artist.setText(song.getSongArtist());
-        album.setText(song.getSongAlbum());
-        year.setText(song.getSongYear());
+        if(song != null){
+            name.setText(song.getSongName());
+            artist.setText(song.getSongArtist());
+            album.setText(song.getSongAlbum());
+            year.setText(song.getSongYear());
+        }else{
+            name.setText("");
+            artist.setText("");
+            album.setText("");
+            year.setText("");
+        }
+
     }
 
 
@@ -176,6 +193,16 @@ public class Controller {
 
 
                 listView.getSelectionModel().select(index);
+
+                Stage mainStage = (Stage) BtnAdd.getScene().getWindow();
+
+                listView
+                        .getSelectionModel()
+                        .selectedIndexProperty()
+                        .addListener(
+                                (obs, oldVal, newVal) ->
+                                        showItem(mainStage));
+
                 saveFile(obsList);
 
                 System.out.println(name.getText());
@@ -186,7 +213,6 @@ public class Controller {
 
 
         }else{
-            System.out.println("Did not enter song name or artist");
             errorMsg(tempStage, "error");
         }
         // Attempting to add sort
@@ -194,9 +220,34 @@ public class Controller {
     }
 
     public void deleteSong(javafx.event.ActionEvent actionEvent) throws IOException {
+
+        Stage mainStage = (Stage) BtnAdd.getScene().getWindow();
+
         songInformation song = listView.getSelectionModel().getSelectedItem();
 
-        obsList.remove(song);
+        Integer index = listView.getSelectionModel().getSelectedIndex();
+
+        Integer listLength = obsList.size();
+
+        if(obsList.size() > 2){
+            if(index < listLength){
+                index += 1;
+                listView.getSelectionModel().select(index);
+            }
+            else{
+                index -= 1;
+                listView.getSelectionModel().select(index);
+            }
+        }
+
+        if (obsList.size() > 0 ){
+            obsList.remove(song);
+
+        }else{
+            errorMsg(mainStage, "delete");
+        }
+
+
         saveFile(obsList);
 
     }
@@ -207,10 +258,20 @@ public class Controller {
         Integer index = listView.getSelectionModel().getSelectedIndex();
 
         songInformation newSong = new songInformation(name.getText(),artist.getText(), album.getText(), year.getText());
+        Stage mainStage = (Stage) BtnAdd.getScene().getWindow();
 
         try{
-            songInformation replace = obsList.set(index, newSong);
-            System.out.println(replace);
+            if(!duplicate(obsList, newSong.getSongName(), newSong.getSongArtist())){
+                if (obsList.size() > 0){
+                    songInformation replace = obsList.set(index, newSong);
+                }else{
+                    errorMsg(mainStage, "edit");
+                }
+            }else{
+                errorMsg(mainStage, "temp");
+            }
+
+
         }catch (Exception e) {
             e.printStackTrace();
         }
