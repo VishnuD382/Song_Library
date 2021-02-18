@@ -1,4 +1,2 @@
-SongTItle||songArtists||songalb
-"Going Bad"||"Drake"||"Championships"
-"Dreams and Nightmares"||"Meek Mill"||"D&M"
-test||asdf||adsf
+add=add=123=123
+test=test=123=123

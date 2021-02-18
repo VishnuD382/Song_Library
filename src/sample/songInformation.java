@@ -1,6 +1,8 @@
 package sample;
 import javafx.beans.property.SimpleStringProperty;
 
+import java.util.Arrays;
+
 public class songInformation {
 
     private final SimpleStringProperty songName = new SimpleStringProperty("");
@@ -9,11 +11,37 @@ public class songInformation {
     private final SimpleStringProperty songYear = new SimpleStringProperty("");
 
     public songInformation(String[] line) {
-
+        System.out.println(Arrays.toString(line));
+        System.out.println(line.length);
         songName.setValue(line[0]);
         songArtist.setValue(line[1]);
-        songAlbum.setValue(line[2]);
-        songYear.setValue(line[3]);
+
+        if(line[2].equals(" ")) {
+            songAlbum.setValue("");
+        }else{
+            songAlbum.setValue(line[2]);
+        }
+
+        if(line[3].equals(" ")) {
+            songYear.setValue("");
+        }else{
+            songYear.setValue(line[3]);
+        }
+
+
+
+//        if(line.length < 3){
+//            songAlbum.setValue("");
+//            songYear.setValue("");
+//        }
+//        else if (line.length < 4){
+//            songAlbum.setValue(line[2]);
+//            songYear.setValue("");
+//        }
+//        else{
+//            songAlbum.setValue(line[2]);
+//            songYear.setValue(line[3]);
+//        }
     }
 
     public String getSongName() {
@@ -83,5 +111,9 @@ public class songInformation {
     @Override
     public String toString() {
         return getSongName() + " | " + getSongArtist();
+    }
+
+    public String stringCompare(){
+        return getSongName() + " " + getSongArtist();
     }
 }

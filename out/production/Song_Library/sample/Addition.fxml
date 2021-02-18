@@ -8,19 +8,19 @@
       <ListView fx:id="listView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </bottom>
    <left>
-      <TitledPane animated="false" text="Song Library" BorderPane.alignment="CENTER">
+      <TitledPane animated="false" collapsible="false" text="Song Library" BorderPane.alignment="CENTER">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="221.0" prefWidth="598.0">
                <children>
                   <ButtonBar layoutY="132.0" prefHeight="40.0" prefWidth="200.0">
                     <buttons>
                       <Button fx:id="BtnAdd" mnemonicParsing="false" onAction="#insertSong" text="Add" />
-                        <Button mnemonicParsing="false" text="Delete" />
-                        <Button mnemonicParsing="false" text="Edit" />
+                        <Button fx:id="BtnDelete" mnemonicParsing="false" onAction="#deleteSong" text="Delete" />
+                        <Button fx:id="BtnEdit" mnemonicParsing="false" onAction="#editSong" text="Edit" />
                     </buttons>
                   </ButtonBar>
                   <TextField fx:id="artist" layoutX="388.0" layoutY="52.0" />
-                  <TextField fx:id="name" layoutX="388.0" layoutY="7.0" text="test" />
+                  <TextField fx:id="name" layoutX="388.0" layoutY="7.0" />
                   <TextField fx:id="album" layoutX="388.0" layoutY="98.0" />
                   <TextField fx:id="year" layoutX="388.0" layoutY="138.0" />
                   <Label layoutX="318.0" layoutY="12.0" text="Song Name:" />
