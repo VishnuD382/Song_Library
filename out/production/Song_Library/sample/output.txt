@@ -1,4 +1,5 @@
-SongTItle||songArtists||songalb
-"Going Bad"||"Drake"||"Championships"
-"Dreams and Nightmares"||"Meek Mill"||"D&M"
-test||asdf||adsf
+headline=drake=2016=1
+test=testsadsfa= = 
+aa=a=bb=b
+ab=ab=bb=b
+b=b=b=b

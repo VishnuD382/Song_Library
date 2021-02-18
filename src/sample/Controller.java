@@ -90,9 +90,7 @@ public class Controller {
             songs[i] = new songInformation(content.get(i));
         }
 
-        obsList = FXCollections.observableArrayList(
-                new songInformation("SongTItle", "songArtists", "songalb", "songyear"));
-
+        obsList = FXCollections.observableArrayList();
         for (songInformation s : songs) {
             obsList.add(s);
         }
@@ -174,7 +172,7 @@ public class Controller {
             if (!year.getText().isEmpty()){
                 yearFiller = year.getText();
             }
-            songInformation newSong = new songInformation(name.getText(), artist.getText(), yearFiller, albumFiller);
+            songInformation newSong = new songInformation(name.getText(), artist.getText(), albumFiller, yearFiller);
 
             if (!duplicate(obsList, name.getText(), artist.getText())){
                 obsList.add(0,newSong);
@@ -212,10 +210,27 @@ public class Controller {
             String fileName = "src\\sample\\output.txt";
             PrintWriter writer = new PrintWriter(fileName);
             for (songInformation song : songList){
-                StringJoiner sj = new StringJoiner("||");
+                StringJoiner sj = new StringJoiner("=");
+
                 sj.add(song.getSongName());
                 sj.add(song.getSongArtist());
-                sj.add(song.getSongAlbum());
+
+                String songAlbum = song.getSongAlbum();
+                if (!songAlbum.isEmpty()){
+                    sj.add(songAlbum);
+                }
+                else{
+                    sj.add(" ");
+                }
+
+                String songYear = song.getSongYear();
+                if (!songAlbum.isEmpty()){
+                    sj.add(songYear);
+                }
+                else{
+                    sj.add(" ");
+                }
+
                 writer.println(sj.toString());
             }
             writer.close();
