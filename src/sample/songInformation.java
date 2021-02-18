@@ -112,4 +112,8 @@ public class songInformation {
     public String toString() {
         return getSongName() + " | " + getSongArtist();
     }
+
+    public String stringCompare(){
+        return getSongName() + " " + getSongArtist();
+    }
 }

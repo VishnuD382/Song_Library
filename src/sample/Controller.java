@@ -27,6 +27,8 @@ import org.w3c.dom.Text;
 import java.util.*;
 
 public class Controller {
+    public String FILENAME = "src\\sample\\output.txt";
+
     @FXML
     ListView<songInformation> listView;
 
@@ -57,7 +59,7 @@ public class Controller {
     // fucntion to read in a csv file
     private List<String[]> readCSV() {
         List<String[]> content = new ArrayList<>();
-        String file = "src\\sample\\test.txt";
+        String file = FILENAME;
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line = "";
             while ((line = br.readLine()) != null) {
@@ -95,12 +97,10 @@ public class Controller {
             obsList.add(s);
         }
 
-
+        sort(obsList);
         listView.setItems(obsList);
 
         listView.getSelectionModel().select(0);
-
-        tempStage = mainStage;
 
         // set listener for the items
         listView
@@ -136,6 +136,7 @@ public class Controller {
 
     private void showItem(Stage mainStage) {
         songInformation song = listView.getSelectionModel().getSelectedItem();
+        System.out.println("etnering");
 
         name.setText(song.getSongName());
         artist.setText(song.getSongArtist());
@@ -145,18 +146,8 @@ public class Controller {
 
 
 
-    // new Scene to add new songs
-    public void insertSongScene(javafx.event.ActionEvent actionEvent) throws IOException {
-        Parent newRoot = FXMLLoader.load(getClass().getResource("add.fxml"));
-        Stage stage2 = (Stage) add.getScene().getWindow();
-        stage2.getScene().setRoot(newRoot);
-    }
 
 
-
-    public ObservableList <songInformation> getList(){
-        return obsList;
-    }
 
     // will handle the add of new songs
     public void insertSong(javafx.event.ActionEvent actionEvent) throws IOException {
@@ -165,6 +156,7 @@ public class Controller {
 
         String albumFiller = "";
         String yearFiller = "";
+
         if(!name.getText().isEmpty() && !artist.getText().isEmpty()){
             if(!album.getText().isEmpty()){
                 albumFiller = album.getText();
@@ -172,10 +164,18 @@ public class Controller {
             if (!year.getText().isEmpty()){
                 yearFiller = year.getText();
             }
-            songInformation newSong = new songInformation(name.getText(), artist.getText(), albumFiller, yearFiller);
 
+            songInformation newSong = new songInformation(name.getText(), artist.getText(), albumFiller, yearFiller);
             if (!duplicate(obsList, name.getText(), artist.getText())){
+                Integer index = 0;
                 obsList.add(0,newSong);
+
+                sort(obsList);
+
+                index = findSong(obsList, newSong.getSongName(), newSong.getSongArtist());
+
+
+                listView.getSelectionModel().select(index);
                 saveFile(obsList);
 
                 System.out.println(name.getText());
@@ -190,8 +190,38 @@ public class Controller {
             errorMsg(tempStage, "error");
         }
         // Attempting to add sort
-        sort(obsList);
+        //sort(obsList);
     }
+
+    public void deleteSong(javafx.event.ActionEvent actionEvent) throws IOException {
+        songInformation song = listView.getSelectionModel().getSelectedItem();
+
+        obsList.remove(song);
+        saveFile(obsList);
+
+    }
+
+    public void editSong(javafx.event.ActionEvent actionEvent) throws IOException {
+        songInformation song = listView.getSelectionModel().getSelectedItem();
+
+        Integer index = listView.getSelectionModel().getSelectedIndex();
+
+        songInformation newSong = new songInformation(name.getText(),artist.getText(), album.getText(), year.getText());
+
+        try{
+            songInformation replace = obsList.set(index, newSong);
+            System.out.println(replace);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        sort(obsList);
+        saveFile(obsList);
+
+    }
+
+
+
 
 
     public static boolean duplicate(ObservableList <songInformation> songList, String songName, String songArtist){
@@ -239,9 +269,23 @@ public class Controller {
         }
     }
 
-    // Attempt at sorting
-    private static void sort(ObservableList <songInformation> songList) {
+    private static Integer findSong(ObservableList <songInformation> songList, String songName, String songArtist){
+        Integer index = 0;
+        for (int i = 0; i < songList.size(); i++) {
+            if(songName == songList.get(i).getSongName() && songArtist == songList.get(i).getSongArtist()){
+                index = i;
+                System.out.println("Found " + songName + " " + songArtist+ " at " + index);
+                return index;
+            }
+        }
+        return 0;
+    }
 
+
+
+    // Attempt at sorting
+    private static Integer sort(ObservableList <songInformation> songList) {
+        Integer index = 0;
         for (int i = 0; i < songList.size(); i++)
         {
             for (int j = i + 1; j < songList.size(); j++)
@@ -251,9 +295,11 @@ public class Controller {
                     songInformation s = new songInformation(songList.get(i).getSongName(),songList.get(i).getSongArtist(),songList.get(i).getSongAlbum(),songList.get(i).getSongYear());
                     songList.set(i, songList.get(j));
                     songList.set(j, s);
+                    index = j;
                 }
             }
         }
+        return index;
     }
 
 
@@ -276,6 +322,14 @@ public class Controller {
         if (result.isPresent()) {
             obsList.set(index, song);
         }
+    }
+
+
+    // new Scene to add new songs
+    public void insertSongScene(javafx.event.ActionEvent actionEvent) throws IOException {
+        Parent newRoot = FXMLLoader.load(getClass().getResource("add.fxml"));
+        Stage stage2 = (Stage) add.getScene().getWindow();
+        stage2.getScene().setRoot(newRoot);
     }
 
 }
