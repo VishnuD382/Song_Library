@@ -2,7 +2,6 @@
 
 package View;
 
-
 import java.io.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,9 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import Application.songInformation;
-
-
-//add COmpare To Ignore case.
 
 import java.util.*;
 
@@ -28,7 +24,11 @@ public class Controller {
     private Button BtnAdd;
 
     @FXML
-    private Button add;
+    private Button BtnDelete;
+
+    @FXML
+    private Button BtnEdit;
+
 
     @FXML
     private TextField name;
@@ -48,18 +48,18 @@ public class Controller {
     private ObservableList<songInformation> obsList;
 
 
-    // fucntion to read in a csv file
+    // function to read in a csv file
     private List<String[]> readCSV() {
         List<String[]> content = new ArrayList<>();
         String file = FILENAME;
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line = "";
             while ((line = br.readLine()) != null) {
-                content.add(line.split("="));
+                content.add(line.split("\\|"));
             }
         } catch (FileNotFoundException e) {
             //Some error logging
-            System.out.println("File not found!");
+            System.out.println("File not found. Creating a new File!");
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Error");
@@ -74,20 +74,17 @@ public class Controller {
         List<String[]> content = readCSV();
         songInformation[] songs = new songInformation[content.size()];
 
-        for (int i = 0; i < content.size(); i++) {
-            System.out.println(Arrays.toString(content.get(i)) );
-        }
-
-        System.out.println(content.size());
+//        for (int i = 0; i < content.size(); i++) {
+//            System.out.println(Arrays.toString(content.get(i)) );
+//        }
 
         for (int i = 0; i < content.size(); i++) {
             songs[i] = new songInformation(content.get(i));
         }
 
         obsList = FXCollections.observableArrayList();
-        for (songInformation s : songs) {
-            obsList.add(s);
-        }
+
+        obsList.addAll(Arrays.asList(songs));
 
         //sort(obsList);
         listView.setItems(obsList);
@@ -117,26 +114,23 @@ public class Controller {
         alert.setTitle("Error Message");
 
 
-        if(errorType.equals("temp")){
-            alert.setHeaderText(
-                    "Error Adding Song");
-
-            content = "This is a duplicate song!";
-        }
-        else if(errorType.equals("delete")){
-            alert.setHeaderText(
-                    "Error Deleting Song");
-
-            content = "No Song to Delete!";
-        }
-        else if(errorType.equals("edit")) {
-            alert.setHeaderText(
-                    "Error Editing Song");
-
-            content = "No Song to Edit!";
-        }
-        else{
-            content = "Input both song name and artist!" + errorType;
+        switch (errorType) {
+            case "temp" -> {
+                alert.setHeaderText(
+                        "Error Adding Song");
+                content = "This is a duplicate song!";
+            }
+            case "delete" -> {
+                alert.setHeaderText(
+                        "Error Deleting Song");
+                content = "No Song to Delete!";
+            }
+            case "edit" -> {
+                alert.setHeaderText(
+                        "Error Editing Song");
+                content = "No Song to Edit!";
+            }
+            default -> content = "Input both song name and artist!";
         }
 
 
@@ -146,7 +140,6 @@ public class Controller {
 
     private void showItem(Stage mainStage) {
         songInformation song = listView.getSelectionModel().getSelectedItem();
-        System.out.println("etnering");
 
         if(song != null){
             name.setText(song.getSongName());
@@ -170,7 +163,6 @@ public class Controller {
     // will handle the add of new songs
     public void insertSong(javafx.event.ActionEvent actionEvent) throws IOException {
 
-        ObservableList<songInformation> newObsList;
 
         String albumFiller = "";
         String yearFiller = "";
@@ -183,7 +175,7 @@ public class Controller {
                 yearFiller = year.getText();
             }
 
-            songInformation newSong = new songInformation(name.getText(), artist.getText(), albumFiller, yearFiller);
+            songInformation newSong = new songInformation(name.getText().trim(), artist.getText().trim(), albumFiller.trim(), yearFiller.trim());
             if (!duplicate(obsList, name.getText(), artist.getText())){
                 Integer index = 0;
                 obsList.add(0,newSong);
@@ -226,19 +218,18 @@ public class Controller {
 
         songInformation song = listView.getSelectionModel().getSelectedItem();
 
-        Integer index = listView.getSelectionModel().getSelectedIndex();
+        int index = listView.getSelectionModel().getSelectedIndex();
 
-        Integer listLength = obsList.size();
+        int listLength = obsList.size();
 
         if(obsList.size() > 2){
             if(index < listLength){
                 index += 1;
-                listView.getSelectionModel().select(index);
             }
             else{
                 index -= 1;
-                listView.getSelectionModel().select(index);
             }
+            listView.getSelectionModel().select(index);
         }
 
         if (obsList.size() > 0 ){
@@ -254,9 +245,8 @@ public class Controller {
     }
 
     public void editSong(javafx.event.ActionEvent actionEvent) throws IOException {
-        songInformation song = listView.getSelectionModel().getSelectedItem();
 
-        Integer index = listView.getSelectionModel().getSelectedIndex();
+        int index = listView.getSelectionModel().getSelectedIndex();
 
         songInformation newSong = new songInformation(name.getText(),artist.getText(), album.getText(), year.getText());
         Stage mainStage = (Stage) BtnAdd.getScene().getWindow();
@@ -289,7 +279,7 @@ public class Controller {
     public static boolean duplicate(ObservableList <songInformation> songList, String songName, String songArtist){
 
         for (int i = 0; i < songList.size(); i++) {
-            if((songList.get(i).getSongName().equals(songName)) && (songList.get(i).getSongArtist().equals(songArtist))){
+            if((songList.get(i).getSongName().toLowerCase().equals(songName.toLowerCase())) && (songList.get(i).getSongArtist().toLowerCase().equals(songArtist.toLowerCase()))){
 
                 return true;
             }
@@ -297,12 +287,12 @@ public class Controller {
         return false;
     }
 
-    public static void saveFile(ObservableList <songInformation> songList){
+    public void saveFile(ObservableList <songInformation> songList){
         try{
-            String fileName = "src/Data/output.txt";
+            String fileName = FILENAME;
             PrintWriter writer = new PrintWriter(fileName);
             for (songInformation song : songList){
-                StringJoiner sj = new StringJoiner("=");
+                StringJoiner sj = new StringJoiner("|");
 
                 sj.add(song.getSongName());
                 sj.add(song.getSongArtist());
@@ -332,9 +322,9 @@ public class Controller {
     }
 
     private static Integer findSong(ObservableList <songInformation> songList, String songName, String songArtist){
-        Integer index = 0;
+        int index = 0;
         for (int i = 0; i < songList.size(); i++) {
-            if(songName == songList.get(i).getSongName() && songArtist == songList.get(i).getSongArtist()){
+            if(songName.equals(songList.get(i).getSongName()) && songArtist.equals(songList.get(i).getSongArtist())){
                 index = i;
                 System.out.println("Found " + songName + " " + songArtist+ " at " + index);
                 return index;
@@ -347,7 +337,7 @@ public class Controller {
 
     // Attempt at sorting
     private static Integer sort(ObservableList <songInformation> songList) {
-        Integer index = 0;
+        int index = 0;
         for (int i = 0; i < songList.size(); i++)
         {
             for (int j = i + 1; j < songList.size(); j++)

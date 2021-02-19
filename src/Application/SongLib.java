@@ -24,11 +24,12 @@ public class SongLib extends Application {
         controller.start(primaryStage);
 
 
-        primaryStage.setTitle("Hello World Testing");
+        primaryStage.setTitle("Song Library - Project 1");
 
 
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
         primaryStage.show();
 
     }

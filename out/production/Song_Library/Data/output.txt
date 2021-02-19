@@ -1,2 +1,2 @@
-add=add=123=123
-test=test=123=123
+test|test| | 
+test|test   asdf  t|123|123

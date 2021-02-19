@@ -28,53 +28,25 @@ public class songInformation {
         }else{
             songYear.setValue(line[3]);
         }
-
-
-
-//        if(line.length < 3){
-//            songAlbum.setValue("");
-//            songYear.setValue("");
-//        }
-//        else if (line.length < 4){
-//            songAlbum.setValue(line[2]);
-//            songYear.setValue("");
-//        }
-//        else{
-//            songAlbum.setValue(line[2]);
-//            songYear.setValue(line[3]);
-//        }
     }
 
     public String getSongName() {
         return songName.get();
     }
 
-    public SimpleStringProperty songNameProperty() {
-        return songName;
-    }
 
     public String getSongArtist() {
         return songArtist.get();
     }
 
-    public SimpleStringProperty songArtistProperty() {
-        return songArtist;
-    }
 
     public String getSongAlbum() {
         return songAlbum.get();
     }
 
-    public SimpleStringProperty songAlbumProperty() {
-        return songAlbum;
-    }
 
     public String getSongYear() {
         return songYear.get();
-    }
-
-    public SimpleStringProperty songYearProperty() {
-        return songYear;
     }
 
     public void setSongName(String songName) {
@@ -92,14 +64,6 @@ public class songInformation {
     public void setSongYear(String songYear) {
         this.songYear.set(songYear);
     }
-
-//    public String[] titleNames(songInformation[] songs){
-//        String[] titles = new String[songs.length];
-//        for (int i = 0; i < songs.length; i++) {
-//            titles[i] = songs[i].getSongName();
-//        }
-//        return titles;
-//    }
 
 
     public songInformation(String songName, String songArtist, String songAlbum, String songYear) {
