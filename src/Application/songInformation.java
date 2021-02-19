@@ -12,8 +12,6 @@ public class songInformation {
     private final SimpleStringProperty songYear = new SimpleStringProperty("");
 
     public songInformation(String[] line) {
-        System.out.println(Arrays.toString(line));
-        System.out.println(line.length);
         songName.setValue(line[0]);
         songArtist.setValue(line[1]);
 

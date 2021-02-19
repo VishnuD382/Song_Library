@@ -130,6 +130,16 @@ public class Controller {
                         "Error Editing Song");
                 content = "No Song to Edit!";
             }
+            case "year" -> {
+                alert.setHeaderText(
+                        "Error Invalid Year");
+                content = "Year needs to be an integer!";
+            }
+            case "negYear" -> {
+                alert.setHeaderText(
+                        "Error Invalid Year");
+                content = "Year needs to be a positive integer!";
+            }
             default -> content = "Input both song name and artist!";
         }
 
@@ -156,14 +166,23 @@ public class Controller {
     }
 
 
-
-
+    public static boolean isNumeric(String year) {
+        try {
+            Integer.parseInt(year);
+        } catch(NullPointerException e) {
+            return false;
+        }
+        catch(NumberFormatException e) {
+            return false;
+        }
+        return true;
+    }
 
 
     // will handle the add of new songs
     public void insertSong(javafx.event.ActionEvent actionEvent) throws IOException {
 
-
+        Stage mainStage = (Stage) BtnAdd.getScene().getWindow();
         String albumFiller = "";
         String yearFiller = "";
 
@@ -173,32 +192,42 @@ public class Controller {
             }
             if (!year.getText().isEmpty()){
                 yearFiller = year.getText();
+                boolean yearTest = isNumeric(yearFiller);
+
+
+                if(!yearTest){
+                    errorMsg(mainStage, "year");
+                    return;
+                }
+
+                int yearInt = Integer.parseInt(year.getText().trim());
+                if(yearInt < 0 ){
+                    errorMsg(mainStage, "negYear");
+                    return;
+                }
+
+
             }
 
             songInformation newSong = new songInformation(name.getText().trim(), artist.getText().trim(), albumFiller.trim(), yearFiller.trim());
-            if (!duplicate(obsList, name.getText(), artist.getText())){
-                Integer index = 0;
+            if (!duplicate(obsList, name.getText().trim(), artist.getText().trim())){
+                int index = 0;
                 obsList.add(0,newSong);
 
                 sort(obsList);
+                saveFile(obsList);
 
-                index = findSong(obsList, newSong.getSongName(), newSong.getSongArtist());
+                index = findSong(obsList, newSong.getSongName().trim(), newSong.getSongArtist().trim());
+
 
 
                 listView.getSelectionModel().select(index);
+                showItem(mainStage);
 
-                Stage mainStage = (Stage) BtnAdd.getScene().getWindow();
 
-                listView
-                        .getSelectionModel()
-                        .selectedIndexProperty()
-                        .addListener(
-                                (obs, oldVal, newVal) ->
-                                        showItem(mainStage));
 
-                saveFile(obsList);
 
-                System.out.println(name.getText());
+                //System.out.println(name.getText());
             }else{
                 errorMsg(tempStage, "temp");
             }
@@ -245,14 +274,27 @@ public class Controller {
     }
 
     public void editSong(javafx.event.ActionEvent actionEvent) throws IOException {
-
+        Stage mainStage = (Stage) BtnAdd.getScene().getWindow();
         int index = listView.getSelectionModel().getSelectedIndex();
 
-        songInformation newSong = new songInformation(name.getText(),artist.getText(), album.getText(), year.getText());
-        Stage mainStage = (Stage) BtnAdd.getScene().getWindow();
+        if (!year.getText().isEmpty()){
+            if (!isNumeric(year.getText().trim())){
+                errorMsg(mainStage,"year");
+                return;
+            }
+            int yearInt = Integer.parseInt(year.getText().trim());
+            if(yearInt < 0 ){
+                errorMsg(mainStage, "negYear");
+                return;
+            }
+        }
+
+
+        songInformation newSong = new songInformation(name.getText().trim(),artist.getText().trim(), album.getText().trim(), year.getText().trim());
+
 
         try{
-            if(!duplicate(obsList, newSong.getSongName(), newSong.getSongArtist())){
+            if(!editCheck(obsList, newSong.getSongName().trim(), newSong.getSongArtist().trim(),index)){
                 if (obsList.size() > 0){
                     songInformation replace = obsList.set(index, newSong);
                 }else{
@@ -270,6 +312,25 @@ public class Controller {
         sort(obsList);
         saveFile(obsList);
 
+    }
+
+
+
+
+    public static boolean editCheck(ObservableList <songInformation> songList, String songName, String songArtist, int index){
+
+        for (int i = 0; i < songList.size(); i++) {
+            if (i != index){
+                if((songList.get(i).getSongName().toLowerCase().equals(songName.toLowerCase())) && (songList.get(i).getSongArtist().toLowerCase().equals(songArtist.toLowerCase()))){
+
+                    return true;
+                }
+            }
+            else{
+                continue;
+            }
+        }
+        return false;
     }
 
 
@@ -326,7 +387,7 @@ public class Controller {
         for (int i = 0; i < songList.size(); i++) {
             if(songName.equals(songList.get(i).getSongName()) && songArtist.equals(songList.get(i).getSongArtist())){
                 index = i;
-                System.out.println("Found " + songName + " " + songArtist+ " at " + index);
+                //System.out.println("Found " + songName + " " + songArtist+ " at " + index);
                 return index;
             }
         }
